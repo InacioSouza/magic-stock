@@ -1,1 +1,1 @@
-# Stock Magic
+# Magic Stock
