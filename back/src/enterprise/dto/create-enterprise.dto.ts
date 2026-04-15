@@ -1,13 +1,17 @@
-import { Type } from "class-transformer";
-import { IsObject, IsString, ValidateNested } from "class-validator";
-import { CreateUserDTO } from "src/users/dto/create-user.dto";
+import { IsEmail, IsString, MinLength } from "class-validator";
 
 export class CreateEnterpriseDTO {
 
     @IsString()
-    name: string;
+    enterpriseName: string;
 
-    @ValidateNested()
-    @Type(() => CreateUserDTO)
-    user: CreateUserDTO;
+    @IsString()
+    userName: string;
+
+    @IsEmail({}, { message: 'Formato de email inválido!' })
+    email: string;
+
+    @IsString()
+    @MinLength(6, { message: 'A senha deve ter no mínimo 6 caracteres!' })
+    password: string;
 }
