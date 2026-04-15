@@ -23,19 +23,20 @@ export class EnterpriseService {
 
     async create(data: CreateEnterpriseDTO) {
 
-        const createUser = new CreateUserDTO();
-        createUser.name = data.userName;
-        createUser.email = data.email;
-        createUser.password = data.password;
-        createUser.role = UserRole.ADMIN;
-
-        const user = await this.usersService.create(createUser);
-
         const enterprise = await this.prismaService.enterprise.create({
             data: {
                 name: data.enterpriseName
             }
         });
+
+        const createUser = new CreateUserDTO();
+        createUser.name = data.userName;
+        createUser.email = data.email;
+        createUser.password = data.password;
+        createUser.role = UserRole.ADMIN;
+        createUser.enterpriseID = enterprise.id;
+
+        const user = await this.usersService.create(createUser);
 
         return {
             enterpriseName: enterprise.name,
