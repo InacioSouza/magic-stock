@@ -23,19 +23,35 @@ enum MovementType {
   EXIT
 }
 
-model User {
-  id        Int        @id @default(autoincrement())
-  name      String
-  email     String     @unique
-  password  String
-  role      Role       @default(OPERATOR)
-  active    Boolean    @default(true)
+model Enterprise {
+  id         Int        @id @default(autoincrement())
+  name       String
+  users      UserApp[]
+  categories Category[]
+  products   Product[]
+  movements  Movement[]
+}
+
+model UserApp {
+  id       Int     @id @default(autoincrement())
+  name     String
+  email    String  @unique
+  password String
+  role     Role    @default(OPERATOR)
+  active   Boolean @default(true)
+
+  enterpriseID Int
+  enterprise   Enterprise @relation(fields: [enterpriseID], references: [id])
+
   movements Movement[]
 }
 
 model Category {
   id   Int    @id @default(autoincrement())
   name String
+
+  enterpriseID Int
+  enterprise   Enterprise @relation(fields: [enterpriseID], references: [id])
 
   products Product[]
 }
@@ -49,6 +65,9 @@ model Product {
 
   categoryID Int
   category   Category @relation(fields: [categoryID], references: [id])
+
+  enterpriseID Int
+  enterprise   Enterprise @relation(fields: [enterpriseID], references: [id])
 
   movements Movement[]
 }
@@ -64,5 +83,8 @@ model Movement {
   product   Product @relation(fields: [productID], references: [id])
 
   userID Int
-  user   User @relation(fields: [userID], references: [id])
+  user   UserApp @relation(fields: [userID], references: [id])
+
+  enterpriseID Int
+  enterprise   Enterprise @relation(fields: [enterpriseID], references: [id])
 }
