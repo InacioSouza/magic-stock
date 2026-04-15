@@ -1,1 +1,4 @@
 *.mwb.bak
+.vscode
+.idea
+/temp
