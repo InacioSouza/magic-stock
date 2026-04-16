@@ -1,6 +1,6 @@
 import { EnterpriseModule } from './enterprise.module';
 import { Enterprise } from './../../node_modules/.prisma/client/index.d';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateEnterpriseDTO } from './dto/create-enterprise.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UsersService } from 'src/users/users.service';
@@ -20,6 +20,13 @@ export class EnterpriseService {
         return this.prismaService.enterprise.findUnique({
             where: { id },
         });
+    }
+
+    async enterpriseExists(id: number): Promise<Enterprise | undefined> {
+        const user = await this.findById(id);
+
+        if (!user) throw new NotFoundException(`Não existe empresa para o id: ${id}`);
+        return user;
     }
 
     async create(data: CreateEnterpriseDTO) {
