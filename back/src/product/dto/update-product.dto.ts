@@ -18,6 +18,10 @@ export class UpdateProductDTO {
     @IsOptional()
     categoryID: number;
 
+    @IsNumber()
+    @IsOptional()
+    amount: number;
+
     @IsBoolean()
     @IsOptional()
     active: boolean;

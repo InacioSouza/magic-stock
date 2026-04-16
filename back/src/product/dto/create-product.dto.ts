@@ -15,6 +15,9 @@ export class CreateProductDTO {
     @IsNumber()
     categoryID: number;
 
+    @IsNumber()
+    amount: number;
+
     @IsBoolean()
     active: boolean;
 

@@ -24,7 +24,7 @@ export class UsersService {
         });
     }
 
-    private async userExists(id: number): Promise<UserApp | undefined> {
+    async userExists(id: number): Promise<UserApp | undefined> {
 
         const user = await this.findById(id);
 

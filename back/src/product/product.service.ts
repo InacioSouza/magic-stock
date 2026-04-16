@@ -4,7 +4,8 @@ import { CreateProductDTO } from './dto/create-product.dto';
 import { CategoryService } from 'src/category/category.service';
 import { EnterpriseService } from 'src/enterprise/enterprise.service';
 import { UpdateProductDTO } from './dto/update-product.dto';
-import { Product } from '@prisma/client';
+import { Prisma, Product } from '@prisma/client';
+import { PrismaClient } from '@prisma/client/extension';
 
 @Injectable()
 export class ProductService {
@@ -44,12 +45,16 @@ export class ProductService {
         return product;
     }
 
-    async update(id: number, dto: UpdateProductDTO): Promise<Product> {
+    async update(
+        id: number,
+        dto: UpdateProductDTO,
+        client: Prisma.TransactionClient | PrismaClient = this.prismaService
+    ): Promise<Product> {
 
         await this.productExists(id);
         if (dto.categoryID) await this.categoryService.categoryExists(dto.categoryID);
 
-        return await this.prismaService.product.update({
+        return await client.product.update({
             where: { id },
             data: {
                 ...dto

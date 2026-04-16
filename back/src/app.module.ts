@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { EnterpriseModule } from './enterprise/enterprise.module';
 import { CategoryModule } from './category/category.module';
 import { ProductModule } from './product/product.module';
+import { MovementModule } from './movement/movement.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { ProductModule } from './product/product.module';
     AuthModule,
     EnterpriseModule,
     CategoryModule,
-    ProductModule
+    ProductModule,
+    MovementModule
   ],
   controllers: [],
   providers: [],
