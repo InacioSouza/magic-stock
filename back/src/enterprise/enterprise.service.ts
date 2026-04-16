@@ -1,3 +1,4 @@
+import { EnterpriseModule } from './enterprise.module';
 import { Enterprise } from './../../node_modules/.prisma/client/index.d';
 import { Injectable } from '@nestjs/common';
 import { CreateEnterpriseDTO } from './dto/create-enterprise.dto';
@@ -23,24 +24,29 @@ export class EnterpriseService {
 
     async create(data: CreateEnterpriseDTO) {
 
-        const enterprise = await this.prismaService.enterprise.create({
-            data: {
-                name: data.enterpriseName
-            }
+        let enterprise;
+        let user;
+
+        await this.prismaService.$transaction(async (tx) => {
+            enterprise = await tx.enterprise.create({
+                data: {
+                    name: data.enterpriseName
+                }
+            });
+
+            const createUser = new CreateUserDTO();
+            createUser.name = data.userName;
+            createUser.email = data.email;
+            createUser.password = data.password;
+            createUser.role = UserRole.ADMIN;
+            createUser.enterpriseID = enterprise.id;
+
+            user = await this.usersService.create(createUser, tx);
         });
 
-        const createUser = new CreateUserDTO();
-        createUser.name = data.userName;
-        createUser.email = data.email;
-        createUser.password = data.password;
-        createUser.role = UserRole.ADMIN;
-        createUser.enterpriseID = enterprise.id;
-
-        const user = await this.usersService.create(createUser);
-
         return {
-            enterpriseName: enterprise.name,
-            userEmail: user.email
+            enterpriseName: enterprise?.name,
+            userEmail: user?.email
         } as CreatedEnterpriseDTO;
     }
 }

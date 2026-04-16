@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDTO } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt'
-import { UserApp } from '@prisma/client';
+import { Prisma, UserApp } from '@prisma/client';
+import { PrismaClient } from '@prisma/client/extension';
 
 @Injectable()
 export class UsersService {
@@ -15,14 +16,16 @@ export class UsersService {
         });
     }
 
-    async create(data: CreateUserDTO) {
+    async create(
+        data: CreateUserDTO,
+        client: Prisma.TransactionClient | PrismaClient = this.prisma ) {
         
         const possibleUser = await this.findByEmail(data.email);
         if(possibleUser) throw new Error('Email já utilizado!');
 
         const hash = await bcrypt.hash(data.password, 10);
 
-        return this.prisma.userApp.create({
+        return client.userApp.create({
             data: {
                 ...data,
                 password: hash
