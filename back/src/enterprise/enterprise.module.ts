@@ -8,6 +8,9 @@ import { UsersService } from 'src/users/users.service';
     EnterpriseService,
     UsersService
   ],
+  exports: [
+    EnterpriseService
+  ],
   controllers: [EnterpriseController]
 })
 export class EnterpriseModule {}

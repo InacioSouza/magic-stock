@@ -1,5 +1,5 @@
 import { PrismaService } from './../prisma/prisma.service';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCategoryDTO } from './dto/create-category.dto';
 import { EnterpriseService } from 'src/enterprise/enterprise.service';
 import { Category } from '@prisma/client';
@@ -10,6 +10,20 @@ export class CategoryService {
     constructor(
         private prismaService: PrismaService,
         private enterpriseService: EnterpriseService) { }
+
+    async findById(id: number) {
+        return this.prismaService.category.findUnique({
+            where: { id }
+        });
+    }
+
+    async categoryExists(id: number) {
+        const category = await this.findById(id);
+
+        if(category) {
+            throw new NotFoundException(`Não existe categoria para o id ${id}`);
+        }
+    }
 
     async create(category: CreateCategoryDTO): Promise<Category> {
 
@@ -25,12 +39,15 @@ export class CategoryService {
     }
 
     async update(id: number, name: string): Promise<Category> {
+
+        this.categoryExists(id);
+
         return this.prismaService.category.update({
             where: {
-                id
+                id: id
             },
             data: {
-                name
+                name: name
             }
         });
     }
