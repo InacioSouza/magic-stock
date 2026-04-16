@@ -20,7 +20,7 @@ export class CategoryService {
     async categoryExists(id: number) {
         const category = await this.findById(id);
 
-        if(category) {
+        if(!category) {
             throw new NotFoundException(`Não existe categoria para o id ${id}`);
         }
     }
