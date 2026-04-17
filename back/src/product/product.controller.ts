@@ -4,11 +4,17 @@ import { ProductService } from './product.service';
 import { UpdateProductDTO } from './dto/update-product.dto';
 import { Product } from '@prisma/client';
 import { Request } from 'express';
+import { ControllerPagination } from 'src/shared/generic-controller/controller-pagination';
+import { CustomPaginationService } from 'src/shared/services/custom-pagination.service';
 
 @Controller('product')
-export class ProductController {
+export class ProductController extends ControllerPagination{
 
-    constructor(private productService: ProductService) {}
+    constructor(
+        private productService: ProductService,
+        customPagination: CustomPaginationService) {
+            super(customPagination, 'product');
+        }
 
     @Post()
     async create(@Req() req: Request, @Body() body: CreateProductDTO): Promise<Product> {

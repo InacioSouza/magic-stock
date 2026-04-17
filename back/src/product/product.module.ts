@@ -6,6 +6,7 @@ import { CategoryService } from 'src/category/category.service';
 import { EnterpriseModule } from 'src/enterprise/enterprise.module';
 import { CategoryModule } from 'src/category/category.module';
 import { UsersModule } from 'src/users/users.module';
+import { CustomPaginationService } from 'src/shared/services/custom-pagination.service';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UsersModule } from 'src/users/users.module';
   controllers: [ProductController],
   providers: [
     ProductService,
+    CustomPaginationService,
   ],
   exports: [
     ProductService

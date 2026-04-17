@@ -2,6 +2,7 @@ import { EnterpriseModule } from './../enterprise/enterprise.module';
 import { Module } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CategoryController } from './category.controller';
+import { CustomPaginationService } from 'src/shared/services/custom-pagination.service';
 
 
 @Module({
@@ -9,7 +10,8 @@ import { CategoryController } from './category.controller';
     EnterpriseModule
   ],
   providers: [
-    CategoryService
+    CategoryService,
+    CustomPaginationService
   ],
   controllers: [
     CategoryController

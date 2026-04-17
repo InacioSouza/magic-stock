@@ -4,6 +4,7 @@ import { MovementService } from './movement.service';
 import { ProductModule } from 'src/product/product.module';
 import { UsersModule } from 'src/users/users.module';
 import { EnterpriseModule } from 'src/enterprise/enterprise.module';
+import { CustomPaginationService } from 'src/shared/services/custom-pagination.service';
 
 @Module({
   imports: [
@@ -12,6 +13,9 @@ import { EnterpriseModule } from 'src/enterprise/enterprise.module';
     EnterpriseModule
   ],
   controllers: [MovementController],
-  providers: [MovementService],
+  providers: [
+    MovementService,
+    CustomPaginationService
+  ],
 })
 export class MovementModule { }

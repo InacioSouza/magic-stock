@@ -6,11 +6,18 @@ import { Public } from 'src/auth/decorators/public';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { UpdatedUserDTO } from './dto/updated-user.dto';
 import { Request } from 'express';
+import { ControllerPagination } from 'src/shared/generic-controller/controller-pagination';
+import { CustomPaginationService } from 'src/shared/services/custom-pagination.service';
 
 @Controller('users')
-export class UsersController {
+export class UsersController extends ControllerPagination {
 
-    constructor(private usersService: UsersService) {}
+    constructor(
+        private usersService: UsersService,
+        customPaginationService: CustomPaginationService
+    ) {
+        super(customPaginationService, 'user');
+    }
 
     private returnEnterpriseID(req: Request): number {
         return req['payload_token']['enterpriseID'];
