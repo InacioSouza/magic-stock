@@ -6,6 +6,8 @@ import { Product } from '@prisma/client';
 import { Request } from 'express';
 import { ControllerPagination } from 'src/shared/generic-controller/controller-pagination';
 import { CustomPaginationService } from 'src/shared/services/custom-pagination.service';
+import { UserRole } from 'src/users/entities/user-role.entity';
+import { Roles } from 'src/auth/decorators/role';
 
 @Controller('product')
 export class ProductController extends ControllerPagination{
@@ -16,12 +18,14 @@ export class ProductController extends ControllerPagination{
             super(customPagination, 'product');
         }
 
+    @Roles(UserRole.OPERATOR)
     @Post()
     async create(@Req() req: Request, @Body() body: CreateProductDTO): Promise<Product> {
         const enterpriseID: number = req['payload_token']['enterpriseID'];
         return await this.productService.create(body, enterpriseID);
     }
 
+    @Roles(UserRole.OPERATOR)
     @Patch(":id")
     async update(
         @Req() req: Request,

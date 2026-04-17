@@ -3,6 +3,7 @@ import { RequestPaginationDTO } from "../dtos/request-pagination.dto";
 import { QueryPaginationDTO } from "../dtos/query-pagination.dto";
 import { ResponsePaginationDTO } from "../dtos/response-pagination.dto";
 import { CustomPaginationService } from "../services/custom-pagination.service";
+import { Public } from "src/auth/decorators/public";
 
 export abstract class ControllerPagination {
 
@@ -11,6 +12,7 @@ export abstract class ControllerPagination {
         private model: string,
     ) { }
 
+    @Public()
     @Get("all")
     async findAll(@Query() query: QueryPaginationDTO): Promise<ResponsePaginationDTO> {
 

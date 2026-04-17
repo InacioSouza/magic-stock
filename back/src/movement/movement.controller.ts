@@ -5,6 +5,8 @@ import { CreateMovementDTO } from './dto/create-movement.dto';
 import { Movement } from '@prisma/client';
 import { Request } from 'express';
 import { ControllerPagination } from 'src/shared/generic-controller/controller-pagination';
+import { UserRole } from 'src/users/entities/user-role.entity';
+import { Roles } from 'src/auth/decorators/role';
 
 @Controller('movement')
 export class MovementController extends ControllerPagination {
@@ -15,6 +17,7 @@ export class MovementController extends ControllerPagination {
         super(customPagination, 'movement');
     }
 
+    @Roles(UserRole.OPERATOR)
     @Post()
     async create(@Req() req: Request, @Body() body: CreateMovementDTO): Promise<Movement> {
         const enterpriseID: number = req['payload_token']['enterpriseID'];

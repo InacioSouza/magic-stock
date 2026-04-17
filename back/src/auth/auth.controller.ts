@@ -3,6 +3,8 @@ import { AuthService } from './auth.service';
 import { SignInDTO } from './dto/sign-in.dto';
 import { Public } from './decorators/public';
 import { Request } from 'express';
+import { UserRole } from 'src/users/entities/user-role.entity';
+import { Roles } from './decorators/role';
 
 @Controller('auth')
 export class AuthController {
@@ -22,6 +24,17 @@ export class AuthController {
         
         return {
             message: 'Hello, world!'
+        }
+    }
+
+    @Roles(UserRole.READER)
+    @Get('role/read')
+    async testRouleReader(@Req() req: Request) {
+
+        const payload = req['payload_token'];
+        
+        return {
+            message: 'Hello, READER!'
         }
     }
 }
