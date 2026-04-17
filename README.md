@@ -46,8 +46,8 @@ npm install
 - DATABASE_URL="..." ( URL do seu banco postgres )
 - SECRETKEY= ... ( a secret que você queira usar para os tokens JWT, ex: secret )
 - EXPIRESIN="..." ( o tempo de expiração do token, ex: 45m )
-  
-Suba o banco de dados postgres - Localmente eu estou utilizando o docker, é menos trabalhoso 
+
+✔️ Suba o banco de dados postgres - Localmente eu estou utilizando o docker, é menos trabalhoso 
 
 ✔️ Na pasta back execute os comandos do prisma:
 ```bash
