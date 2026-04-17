@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDTO } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt'
@@ -34,6 +34,7 @@ export class UsersService {
 
     async create(
         data: CreateUserDTO,
+        enterpriseID: number,
         client: Prisma.TransactionClient | PrismaClient = this.prisma) {
 
         const possibleUser = await this.findByEmail(data.email);
@@ -44,13 +45,18 @@ export class UsersService {
         return client.userApp.create({
             data: {
                 ...data,
-                password: hash
+                password: hash,
+                enterpriseID
             }
         });
     }
 
-    async inactivate(id: number) {
-        await this.userExists(id);
+    async inactivate(id: number, enterpriseID: number,) {
+        const user = await this.userExists(id);
+
+        if (user.enterpriseID !== enterpriseID) {
+            throw new UnauthorizedException('Não é permitido alterar um registro pertencente a outra empresa!')
+        }
 
         await this.prisma.userApp.update({
             where: {
@@ -65,10 +71,15 @@ export class UsersService {
 
     async updateUser(
         id: number,
-        dto: UpdateUserDTO
+        dto: UpdateUserDTO,
+        enterpriseID: number
     ): Promise<UpdatedUserDTO> {
 
-        await this.userExists(id);
+        const user = await this.userExists(id);
+
+        if (user.enterpriseID !== enterpriseID) {
+            throw new UnauthorizedException('Não é permitido alterar um registro pertencente a outra empresa!')
+        }
 
         const attributes = {};
 

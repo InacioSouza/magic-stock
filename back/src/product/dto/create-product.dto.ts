@@ -20,7 +20,4 @@ export class CreateProductDTO {
 
     @IsBoolean()
     active: boolean;
-
-    @IsNumber()
-    enterpriseID: number;
 }

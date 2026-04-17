@@ -19,7 +19,7 @@ export class AuthService {
         const user = await this.usersService.findByEmail(data.email);
 
         if(!user) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException('Usuário não encontrado!');
         }
 
         const correctPassword = await bcrypt.compare(data.password, user.password);
@@ -27,7 +27,7 @@ export class AuthService {
             throw new UnauthorizedException();
         }
 
-        const payload = {userEmail: user.email, userRole: user.role};
+        const payload = {userEmail: user.email, userRole: user.role, enterpriseID: user.enterpriseID};
 
         const token = {
             access_token: await this.jwtService.signAsync(payload)

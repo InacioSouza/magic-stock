@@ -1,23 +1,26 @@
-import { Body, Controller, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Param, Post, Put, Query, Req } from '@nestjs/common';
 import { CreateCategoryDTO } from './dto/create-category.dto';
 import { CategoryService } from './category.service';
-import { promises } from 'dns';
 import { Category } from '@prisma/client';
+import { Request } from 'express';
 
 @Controller('category')
 export class CategoryController {
 
-    constructor (private categoryService: CategoryService) {}
+    constructor(private categoryService: CategoryService) { }
 
     @Post()
-    async create(@Body() body: CreateCategoryDTO): Promise<Category> {
-        return await this.categoryService.create(body); 
+    async create(@Req() req: Request, @Body() body: CreateCategoryDTO): Promise<Category> {
+        const enterpriseID: number = req['payload_token']['enterpriseID'];
+        return await this.categoryService.create(body, enterpriseID);
     }
 
     @Put(":id")
     async update(
+        @Req() req: Request,
         @Param("id") id: string,
         @Query("name") name: string): Promise<Category> {
-        return await this.categoryService.update(Number(id), name);
+        const enterpriseID: number = req['payload_token']['enterpriseID'];
+        return await this.categoryService.update(Number(id), name, enterpriseID);
     }
 }

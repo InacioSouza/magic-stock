@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProductDTO } from './dto/create-product.dto';
 import { CategoryService } from 'src/category/category.service';
@@ -31,14 +31,15 @@ export class ProductService {
         return product;
     }
 
-    async create(dto: CreateProductDTO): Promise<Product> {
+    async create(dto: CreateProductDTO, enterpriseID: number ): Promise<Product> {
 
         await this.categoryService.categoryExists(dto.categoryID);
-        await this.enterpriseService.enterpriseExists(dto.enterpriseID);
+        await this.enterpriseService.enterpriseExists(enterpriseID);
 
         const product = await this.prismaService.product.create({
             data: {
-                ...dto
+                ...dto,
+                enterpriseID
             }
         });
 
@@ -48,10 +49,16 @@ export class ProductService {
     async update(
         id: number,
         dto: UpdateProductDTO,
+        enterpriseID: number,
         client: Prisma.TransactionClient | PrismaClient = this.prismaService
     ): Promise<Product> {
 
-        await this.productExists(id);
+        const product = await this.productExists(id);
+
+        if(product.enterpriseID !== enterpriseID) {
+            throw new UnauthorizedException('Não é permitido alterar um registro pertencente a outra empresa!')
+        }
+        
         if (dto.categoryID) await this.categoryService.categoryExists(dto.categoryID);
 
         return await client.product.update({

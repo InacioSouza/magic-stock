@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDTO } from './dto/sign-in.dto';
 import { Public } from './decorators/public';
+import { Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -15,7 +16,10 @@ export class AuthController {
     }
 
     @Get('test')
-    async testRoute() {
+    async testRoute(@Req() req: Request) {
+
+        const payload = req['payload_token'];
+        
         return {
             message: 'Hello, world!'
         }

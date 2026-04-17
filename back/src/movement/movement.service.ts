@@ -34,10 +34,11 @@ export class MovementService {
         return product;
     }
 
-    async create(dto: CreateMovementDTO): Promise<Movement> {
+    async create(dto: CreateMovementDTO, enterpriseID: number): Promise<Movement> {
+
         const product = await this.productService.productExists(dto.productID);
         await this.usersService.userExists(dto.userID);
-        await this.enterpriseService.enterpriseExists(dto.enterpriseID);
+        await this.enterpriseService.enterpriseExists(enterpriseID);
 
         if (!dto.amount || dto.amount <= 0) {
             throw new BadRequestException(
@@ -65,11 +66,12 @@ export class MovementService {
             const productDTO = new UpdateProductDTO();
             productDTO.amount = newProductAmount;
 
-            await this.productService.update(dto.productID, productDTO, tx);
+            await this.productService.update(dto.productID, productDTO, enterpriseID, tx);
 
             movement = await tx.movement.create({
                 data: {
-                    ...dto
+                    ...dto,
+                    enterpriseID
                 }
             });
 

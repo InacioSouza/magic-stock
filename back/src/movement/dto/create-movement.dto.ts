@@ -22,7 +22,4 @@ export class CreateMovementDTO {
 
     @IsNumber()
     userID: number;
-
-    @IsNumber()
-    enterpriseID: number;
 }

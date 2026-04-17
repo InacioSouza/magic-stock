@@ -16,7 +16,4 @@ export class CreateUserDTO {
     @IsOptional()
     @IsEnum(UserRole)
     role?: UserRole;
-
-    @IsNumber()
-    enterpriseID: number;
 }

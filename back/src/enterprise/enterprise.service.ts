@@ -46,9 +46,8 @@ export class EnterpriseService {
             createUser.email = data.email;
             createUser.password = data.password;
             createUser.role = UserRole.ADMIN;
-            createUser.enterpriseID = enterprise.id;
 
-            user = await this.usersService.create(createUser, tx);
+            user = await this.usersService.create(createUser, enterprise.id, tx);
         });
 
         return {

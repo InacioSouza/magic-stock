@@ -1,7 +1,8 @@
-import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Param, Patch, Post, Req } from '@nestjs/common';
 import { MovementService } from './movement.service';
 import { CreateMovementDTO } from './dto/create-movement.dto';
 import { Movement } from '@prisma/client';
+import { Request } from 'express';
 
 @Controller('movement')
 export class MovementController {
@@ -9,8 +10,9 @@ export class MovementController {
     constructor(private movementService: MovementService) {}
 
     @Post()
-    async create(@Body() body: CreateMovementDTO): Promise<Movement> {
-        return await this.movementService.create(body);
+    async create(@Req() req: Request, @Body() body: CreateMovementDTO): Promise<Movement> {
+        const enterpriseID: number = req['payload_token']['enterpriseID'];
+        return await this.movementService.create(body, enterpriseID);
     }
 
 }
