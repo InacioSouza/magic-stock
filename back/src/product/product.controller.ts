@@ -8,8 +8,11 @@ import { ControllerPagination } from 'src/shared/generic-controller/controller-p
 import { CustomPaginationService } from 'src/shared/services/custom-pagination.service';
 import { UserRole } from 'src/users/entities/user-role.entity';
 import { Roles } from 'src/auth/decorators/role';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('product')
+@ApiTags('Product')
+@ApiBearerAuth('access-token')
 export class ProductController extends ControllerPagination{
 
     constructor(

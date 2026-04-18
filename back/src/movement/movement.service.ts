@@ -34,10 +34,10 @@ export class MovementService {
         return product;
     }
 
-    async create(dto: CreateMovementDTO, enterpriseID: number): Promise<Movement> {
+    async create(userEmail: string, dto: CreateMovementDTO, enterpriseID: number): Promise<Movement> {
 
         const product = await this.productService.productExists(dto.productID);
-        await this.usersService.userExists(dto.userID);
+        const user = await this.usersService.findByEmail(userEmail);
         await this.enterpriseService.enterpriseExists(enterpriseID);
 
         if (!dto.amount || dto.amount <= 0) {
@@ -71,7 +71,8 @@ export class MovementService {
             movement = await tx.movement.create({
                 data: {
                     ...dto,
-                    enterpriseID
+                    enterpriseID,
+                    userID: user.id
                 }
             });
 

@@ -7,8 +7,11 @@ import { Request } from 'express';
 import { ControllerPagination } from 'src/shared/generic-controller/controller-pagination';
 import { UserRole } from 'src/users/entities/user-role.entity';
 import { Roles } from 'src/auth/decorators/role';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('movement')
+@ApiTags('Movement')
+@ApiBearerAuth('access-token')
 export class MovementController extends ControllerPagination {
 
     constructor(
@@ -21,7 +24,7 @@ export class MovementController extends ControllerPagination {
     @Post()
     async create(@Req() req: Request, @Body() body: CreateMovementDTO): Promise<Movement> {
         const enterpriseID: number = req['payload_token']['enterpriseID'];
-        return await this.movementService.create(body, enterpriseID);
+        return await this.movementService.create(req['userEmail'], body, enterpriseID);
     }
 
 }

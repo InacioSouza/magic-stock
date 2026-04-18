@@ -8,8 +8,11 @@ import { UpdatedUserDTO } from './dto/updated-user.dto';
 import { Request } from 'express';
 import { ControllerPagination } from 'src/shared/generic-controller/controller-pagination';
 import { CustomPaginationService } from 'src/shared/services/custom-pagination.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('users')
+@ApiTags('User')
+@ApiBearerAuth('access-token')
 export class UsersController extends ControllerPagination {
 
     constructor(

@@ -4,6 +4,8 @@ import { QueryPaginationDTO } from "../dtos/query-pagination.dto";
 import { ResponsePaginationDTO } from "../dtos/response-pagination.dto";
 import { CustomPaginationService } from "../services/custom-pagination.service";
 import { Public } from "src/auth/decorators/public";
+import { Roles } from "src/auth/decorators/role";
+import { UserRole } from "src/users/entities/user-role.entity";
 
 export abstract class ControllerPagination {
 
@@ -12,7 +14,7 @@ export abstract class ControllerPagination {
         private model: string,
     ) { }
 
-    @Public()
+    @Roles(UserRole.ADMIN, UserRole.OPERATOR, UserRole.READER)
     @Get("all")
     async findAll(@Query() query: QueryPaginationDTO): Promise<ResponsePaginationDTO> {
 

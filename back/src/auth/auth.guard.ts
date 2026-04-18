@@ -48,14 +48,14 @@ export class AuthGuard implements CanActivate{
                 ]
             );
 
-            const hasRole = listRoles.filter(role => {
+            const hasRole = listRoles?.filter(role => {
                 return role.toString() === payload.userRole;
             });
 
             const isAdmin = payload.userRole.startsWith(UserRole.ADMIN.toString());
 
             // User ADMIN pode acessar qualquer rota
-            if (hasRole.length === 0 && !isAdmin) {
+            if ((!hasRole || hasRole.length === 0) && !isAdmin) {
                 throw new UnauthorizedException('Você não tem permissão para acessar o recurso!');
             }
 

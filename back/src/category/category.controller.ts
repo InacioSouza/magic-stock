@@ -5,8 +5,11 @@ import { CategoryService } from './category.service';
 import { Category } from '@prisma/client';
 import { Request } from 'express';
 import { ControllerPagination } from 'src/shared/generic-controller/controller-pagination';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('category')
+@ApiTags('Category')
+@ApiBearerAuth('access-token')
 export class CategoryController extends ControllerPagination{
 
     constructor(

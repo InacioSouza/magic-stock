@@ -5,8 +5,10 @@ import { Public } from './decorators/public';
 import { Request } from 'express';
 import { UserRole } from 'src/users/entities/user-role.entity';
 import { Roles } from './decorators/role';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiTags('Authorization')
 export class AuthController {
 
     constructor(private authService: AuthService) {}
@@ -17,7 +19,9 @@ export class AuthController {
         return await this.authService.signIn(body);
     }
 
+    /*
     @Get('test')
+    @ApiBearerAuth('access-token')
     async testRoute(@Req() req: Request) {
 
         const payload = req['payload_token'];
@@ -29,6 +33,7 @@ export class AuthController {
 
     @Roles(UserRole.READER)
     @Get('role/read')
+    @ApiBearerAuth('access-token')
     async testRouleReader(@Req() req: Request) {
 
         const payload = req['payload_token'];
@@ -36,5 +41,5 @@ export class AuthController {
         return {
             message: 'Hello, READER!'
         }
-    }
+    } */
 }
