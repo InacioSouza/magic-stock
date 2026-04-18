@@ -1,5 +1,5 @@
 import { UserCreatedDTO } from './dto/user-created.dto';
-import { Body, Controller, HttpCode, HttpStatus, Param, Patch, Post, Put, Req } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Put, Req } from '@nestjs/common';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { Public } from 'src/auth/decorators/public';
@@ -20,6 +20,11 @@ export class UsersController extends ControllerPagination {
         customPaginationService: CustomPaginationService
     ) {
         super(customPaginationService, 'user');
+    }
+
+    @Get(':id')
+    async findById(@Param('id') id: number) {
+        return await this.usersService.findById(id);
     }
 
     private returnEnterpriseID(req: Request): number {

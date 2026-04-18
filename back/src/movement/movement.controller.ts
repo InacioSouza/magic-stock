@@ -1,5 +1,5 @@
 import { CustomPaginationService } from './../shared/services/custom-pagination.service';
-import { Body, Controller, Param, Patch, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Req } from '@nestjs/common';
 import { MovementService } from './movement.service';
 import { CreateMovementDTO } from './dto/create-movement.dto';
 import { Movement } from '@prisma/client';
@@ -18,6 +18,11 @@ export class MovementController extends ControllerPagination {
         private movementService: MovementService,
         customPagination: CustomPaginationService) {
         super(customPagination, 'movement');
+    }
+
+    @Get(':id')
+    async findById(@Param('id') id: number) {
+        return await this.movementService.findById(id);
     }
 
     @Roles(UserRole.OPERATOR)

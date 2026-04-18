@@ -19,6 +19,11 @@ export class CategoryController extends ControllerPagination{
         super(customPagination, 'category');
     }
 
+    @Get(':id')
+    async findById(@Param('id') id: number) {
+        return await this.categoryService.findById(id);
+    }
+
     @Post()
     async create(@Req() req: Request, @Body() body: CreateCategoryDTO): Promise<Category> {
         const enterpriseID: number = req['payload_token']['enterpriseID'];

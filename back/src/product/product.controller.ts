@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Patch, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Req } from '@nestjs/common';
 import { CreateProductDTO } from './dto/create-product.dto';
 import { ProductService } from './product.service';
 import { UpdateProductDTO } from './dto/update-product.dto';
@@ -13,13 +13,19 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @Controller('product')
 @ApiTags('Product')
 @ApiBearerAuth('access-token')
-export class ProductController extends ControllerPagination{
+export class ProductController extends ControllerPagination {
 
     constructor(
         private productService: ProductService,
         customPagination: CustomPaginationService) {
-            super(customPagination, 'product');
-        }
+        super(customPagination, 'product');
+    }
+
+    @Get(':id')
+    async findById(@Param('id') id: number) {
+        return await this.productService.findById(id);
+    }
+
 
     @Roles(UserRole.OPERATOR)
     @Post()
