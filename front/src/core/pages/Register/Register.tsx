@@ -4,6 +4,8 @@ import styles from './Register.module.css';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { api } from '../../api';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const registerSchema = z.object({
     email: z.email("Email inválido!"),
@@ -32,9 +34,24 @@ const Register = () => {
     } = useForm<RegisterData>({
         resolver: zodResolver(registerSchema)
     });
-    
+
+    const navigate = useNavigate();
+
     const onSubmit = (data: RegisterData) => {
-        //api.post
+        api.post("/enterprise", {
+            enterpriseName: data.enterpriseName,
+            userName: data.userName,
+            email: data.email,
+            password: data.password
+
+        }).then(response => {
+            toast.success('Registro criado!')
+            navigate("/login");
+
+        }).catch(error => {
+            console.error(error);
+            toast.error('Falha ao criar registro!')
+        });
     }
 
     return (
@@ -58,12 +75,12 @@ const Register = () => {
                 </div>
 
                 <div className={styles.field}>
-                    <input {...register("password")} placeholder="Senha" />
+                    <input {...register("password")} type='password' placeholder="Senha" />
                     {errors.password && <span>{errors.password.message}</span>}
                 </div>
 
                 <div className={styles.field}>
-                    <input {...register("confirmPassword")} placeholder="Confirme a senha" />
+                    <input {...register("confirmPassword")} type='password' placeholder="Confirme a senha" />
                     {errors.confirmPassword && <span>{errors.confirmPassword.message}</span>}
                 </div>
 

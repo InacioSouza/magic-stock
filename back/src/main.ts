@@ -7,6 +7,15 @@ import { swaggerConfig } from './configs/swagger.config';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  const corsOptions = {
+    origin: ["http://localhost:5173",],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true
+  };
+
+  app.enableCors(corsOptions);
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
