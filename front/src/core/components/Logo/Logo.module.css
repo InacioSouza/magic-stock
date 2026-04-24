@@ -1,0 +1,37 @@
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    font-weight: 550;
+    font-style: italic;
+    user-select: none;
+    max-width: 205px;
+}
+
+.logo .magic {
+    color: #f26c4f;
+    text-align: left;
+}
+
+
+.logo .stock {
+    color: #3a89c9;
+    text-align: right;
+}
+
+.magic_large {
+    font-size: 45px;
+}
+
+.stock_large {
+    font-size: 40px;
+}
+
+.magic_min {
+    font-size: 31px;
+}
+
+.stock_min {
+    font-size: 26px;
+
+}

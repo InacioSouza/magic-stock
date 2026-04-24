@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { api } from '../../api';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import Logo from '../../components/Logo/Logo';
 
 const registerSchema = z.object({
     email: z.email("Email inválido!"),
@@ -56,7 +57,10 @@ const Register = () => {
 
     return (
         <section>
+            <Logo/>
+
             <h1>Registre-se para conhecer a eficiência</h1>
+            
             <form onSubmit={handleSubmit(onSubmit)} className={styles.register}>
 
                 <div className={styles.field}>
