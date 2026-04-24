@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import styles from './Login.module.css';
+import styles from '../Register/Forms.module.css';
 import Logo from '../../components/Logo/Logo';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -61,7 +61,7 @@ const Login = () => {
 
                 <h1>Só mais um passo para a magia</h1>
 
-                <form onSubmit={handleSubmit(onSubmit)} className={styles.login}>
+                <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 
                     <div className={styles.field}>
                         <input {...register('email')} type="email" placeholder='Email' />

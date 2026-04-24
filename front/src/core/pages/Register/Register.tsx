@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
-import styles from './Register.module.css';
+import styles from './Forms.module.css';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { api } from '../../api';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Logo from '../../components/Logo/Logo';
 import Header from '../../components/Header/Header';
@@ -72,7 +72,7 @@ const Register = () => {
 
                 <h1>Registre-se para conhecer a eficiência</h1>
 
-                <form onSubmit={handleSubmit(onSubmit)} className={styles.register}>
+                <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 
                     <div className={styles.field}>
                         <input {...register("enterpriseName")} placeholder="Nome empresa" />
