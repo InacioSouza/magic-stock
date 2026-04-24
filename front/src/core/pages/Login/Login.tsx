@@ -7,6 +7,8 @@ import { api } from '../../api';
 import { toast } from 'react-toastify';
 import { useAuthStore } from '../../store/authStore';
 import { useNavigate } from 'react-router-dom';
+import SimpleLink from '../../components/Link/Link';
+import Header from '../../components/Header/Header';
 
 const loginSchema = z.object({
     email: z.email("Email inválido!"),
@@ -33,7 +35,7 @@ const Login = () => {
             email: data.email,
             password: data.password
         }).then(response => {
-           
+
             toast.success("Login realizado!");
             login(response.data.access_token);
             navigate("/dashboard");
@@ -45,26 +47,35 @@ const Login = () => {
     }
 
     return (
-        <section>
-            <Logo />
-
-            <h1>Só mais um passo para a magia</h1>
-
-            <form onSubmit={handleSubmit(onSubmit)} className={styles.login}>
-
-                <div className={styles.field}>
-                    <input {...register('email')} type="email" placeholder='Email' />
-                    {errors.email && <span>{errors.email.message}</span>}
+        <>
+            <Header>
+                <div className={styles.links}>
+                    <SimpleLink href='#'>Sobre nós</SimpleLink>
+                    <SimpleLink href='/register'>Registre-se</SimpleLink>
                 </div>
+            </Header>
 
-                <div className={styles.field}>
-                    <input {...register('password')} type="password" placeholder='Senha' />
-                    {errors.password && <span>{errors.password.message}</span>}
-                </div>
+            <section>
+                <Logo />
 
-                <button type='submit'>Entrar</button>
-            </form>
-        </section>
+                <h1>Só mais um passo para a magia</h1>
+
+                <form onSubmit={handleSubmit(onSubmit)} className={styles.login}>
+
+                    <div className={styles.field}>
+                        <input {...register('email')} type="email" placeholder='Email' />
+                        {errors.email && <span>{errors.email.message}</span>}
+                    </div>
+
+                    <div className={styles.field}>
+                        <input {...register('password')} type="password" placeholder='Senha' />
+                        {errors.password && <span>{errors.password.message}</span>}
+                    </div>
+
+                    <button type='submit'>Entrar</button>
+                </form>
+            </section>
+        </>
     );
 }
 

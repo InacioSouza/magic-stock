@@ -4,9 +4,11 @@ import styles from './Register.module.css';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { api } from '../../api';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Logo from '../../components/Logo/Logo';
+import Header from '../../components/Header/Header';
+import SimpleLink from '../../components/Link/Link';
 
 const registerSchema = z.object({
     email: z.email("Email inválido!"),
@@ -56,42 +58,50 @@ const Register = () => {
     }
 
     return (
-        <section>
-            <Logo/>
-
-            <h1>Registre-se para conhecer a eficiência</h1>
+        <>
+            <Header>
+                <div className={styles.links}>
+                    <SimpleLink href='#'>Sobre nós</SimpleLink>
+                    <SimpleLink href='/login'>Login</SimpleLink>
+                </div>
+            </Header>
             
-            <form onSubmit={handleSubmit(onSubmit)} className={styles.register}>
+            <section>
+                <Logo />
 
-                <div className={styles.field}>
-                    <input {...register("enterpriseName")} placeholder="Nome empresa" />
-                    {errors.enterpriseName && <span>{errors.enterpriseName.message}</span>}
-                </div>
+                <h1>Registre-se para conhecer a eficiência</h1>
 
-                <div className={styles.field}>
-                    <input {...register("userName")} placeholder="Nome administrador" />
-                    {errors.userName && <span>{errors.userName.message}</span>}
-                </div>
+                <form onSubmit={handleSubmit(onSubmit)} className={styles.register}>
 
-                <div className={styles.field}>
-                    <input {...register("email")} placeholder="Email" />
-                    {errors.email && <span>{errors.email.message}</span>}
-                </div>
+                    <div className={styles.field}>
+                        <input {...register("enterpriseName")} placeholder="Nome empresa" />
+                        {errors.enterpriseName && <span>{errors.enterpriseName.message}</span>}
+                    </div>
 
-                <div className={styles.field}>
-                    <input {...register("password")} type='password' placeholder="Senha" />
-                    {errors.password && <span>{errors.password.message}</span>}
-                </div>
+                    <div className={styles.field}>
+                        <input {...register("userName")} placeholder="Nome administrador" />
+                        {errors.userName && <span>{errors.userName.message}</span>}
+                    </div>
 
-                <div className={styles.field}>
-                    <input {...register("confirmPassword")} type='password' placeholder="Confirme a senha" />
-                    {errors.confirmPassword && <span>{errors.confirmPassword.message}</span>}
-                </div>
+                    <div className={styles.field}>
+                        <input {...register("email")} placeholder="Email" />
+                        {errors.email && <span>{errors.email.message}</span>}
+                    </div>
 
-                <button type='submit'>Registrar</button>
-            </form>
+                    <div className={styles.field}>
+                        <input {...register("password")} type='password' placeholder="Senha" />
+                        {errors.password && <span>{errors.password.message}</span>}
+                    </div>
 
-        </section>
+                    <div className={styles.field}>
+                        <input {...register("confirmPassword")} type='password' placeholder="Confirme a senha" />
+                        {errors.confirmPassword && <span>{errors.confirmPassword.message}</span>}
+                    </div>
+
+                    <button type='submit'>Registrar</button>
+                </form>
+
+            </section></>
     );
 }
 

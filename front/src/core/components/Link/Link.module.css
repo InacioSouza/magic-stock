@@ -1,0 +1,17 @@
+.link {
+
+    padding: 3px;
+
+    font-size: 20px;
+    font-weight: 550;
+    transition: transform 0.3s ease-in-out;
+
+    border-radius: 10px;
+
+    color: #e9f2f9;
+    text-decoration: none;
+}
+
+.link:hover {
+    transform: scale(1.2) ;
+}
