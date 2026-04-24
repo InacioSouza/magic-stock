@@ -9,6 +9,7 @@ import { useAuthStore } from '../../store/authStore';
 import { useNavigate } from 'react-router-dom';
 import SimpleLink from '../../components/Link/Link';
 import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 
 const loginSchema = z.object({
     email: z.email("Email inválido!"),
@@ -75,6 +76,8 @@ const Login = () => {
                     <button type='submit'>Entrar</button>
                 </form>
             </section>
+
+            <Footer />
         </>
     );
 }

@@ -7,9 +7,9 @@
     padding: 0;
 }
 
-body, #root {
+html, body, #root {
     background-color: #e9f2f9;
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
 }

@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import Logo from '../../components/Logo/Logo';
 import Header from '../../components/Header/Header';
 import SimpleLink from '../../components/Link/Link';
+import Footer from '../../components/Footer/Footer';
 
 const registerSchema = z.object({
     email: z.email("Email inválido!"),
@@ -101,7 +102,10 @@ const Register = () => {
                     <button type='submit'>Registrar</button>
                 </form>
 
-            </section></>
+            </section>
+
+            <Footer />    
+        </>
     );
 }
 

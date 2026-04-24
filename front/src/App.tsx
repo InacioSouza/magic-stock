@@ -6,10 +6,12 @@ import AppRoutes from './core/routes/AppRoutes'
 function App() {
 
   return (
-      <>
-        <ToastContainer />
+    <>
+      <ToastContainer />
+      <div className='app'>
         <AppRoutes />
-      </>
+      </div>
+    </>
   )
 }
 
