@@ -6,13 +6,17 @@
     font-style: italic;
     user-select: none;
     max-width: 205px;
+    background-color: transparent;
+}
+
+.logo span {
+    background-color: transparent;
 }
 
 .logo .magic {
     color: #f26c4f;
     text-align: left;
 }
-
 
 .logo .stock {
     color: #3a89c9;
