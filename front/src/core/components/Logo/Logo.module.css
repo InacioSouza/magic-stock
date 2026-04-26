@@ -13,13 +13,17 @@
     background-color: transparent;
 }
 
+.logo_small {
+    max-width: 105px;
+}
+
 .logo .magic {
     color: #f26c4f;
     text-align: left;
 }
 
 .logo .stock {
-    color: #3a89c9;
+    color: #1b325f;
     text-align: right;
 }
 
@@ -32,10 +36,10 @@
 }
 
 .magic_min {
-    font-size: 31px;
+    font-size: 26px;
 }
 
 .stock_min {
-    font-size: 26px;
+    font-size: 21px;
 
 }
