@@ -1,3 +1,4 @@
+import { FindProductsByPropertiesDTO } from './dto/find-products-by-properties.dto';
 import { Body, Controller, Get, Param, Patch, Post, Req } from '@nestjs/common';
 import { CreateProductDTO } from './dto/create-product.dto';
 import { ProductService } from './product.service';
@@ -43,6 +44,11 @@ export class ProductController extends ControllerPagination {
         const enterpriseID: number = req['payload_token']['enterpriseID'];
 
         return await this.productService.update(Number(id), body, enterpriseID);
+    }
+
+    @Post("by-properties")
+    async findByProperties(@Body() dto: FindProductsByPropertiesDTO): Promise<Product[]> {
+        return await this.productService.findByProperties(dto);
     }
 
 }
