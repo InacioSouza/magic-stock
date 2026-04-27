@@ -1,0 +1,24 @@
+
+.filter h3 {
+  font-weight: 550;
+  font-style: italic;
+  font-size: 24px;
+  color: #1b325f;
+}
+
+.filter button {
+  padding: 6px;
+  margin: 0 auto;
+
+  color: #3a89c9;
+  background-color: transparent;
+  font-weight: 550;
+
+  border-radius: 8px;
+  border: 2.3px solid #f26c4f;
+}
+
+.filter button:hover {
+  cursor: pointer;
+  background-color: #cee6f7;
+}

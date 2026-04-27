@@ -3,6 +3,7 @@ import Register from "../pages/Register/Register";
 import Login from "../pages/Login/Login";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import PrivateRoute from "./PrivateRoute";
+import Produtos from "../pages/Produtos/Produtos";
 
 const AppRoutes = () => {
 
@@ -12,6 +13,12 @@ const AppRoutes = () => {
                 <Route path="/" element={<Navigate to="/dashboard" replace/>}></Route>
                 <Route path="/register" element={<Register />}></Route>
                 <Route path="/login" element={<Login />}></Route>
+
+                <Route path="/produtos" element={
+                    <PrivateRoute>
+                        <Produtos />
+                    </PrivateRoute>
+                }></Route>
 
                 <Route path="/dashboard" element={
                     <PrivateRoute>
