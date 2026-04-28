@@ -1,5 +1,5 @@
 import { FindProductsByPropertiesDTO } from './dto/find-products-by-properties.dto';
-import { Body, Controller, Get, Param, Patch, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query, Req } from '@nestjs/common';
 import { CreateProductDTO } from './dto/create-product.dto';
 import { ProductService } from './product.service';
 import { UpdateProductDTO } from './dto/update-product.dto';
@@ -10,6 +10,8 @@ import { CustomPaginationService } from 'src/shared/services/custom-pagination.s
 import { UserRole } from 'src/users/entities/user-role.entity';
 import { Roles } from 'src/auth/decorators/role';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { QueryPaginationDTO } from 'src/shared/dtos/query-pagination.dto';
+import { ResponsePaginationDTO } from 'src/shared/dtos/response-pagination.dto';
 
 @Controller('product')
 @ApiTags('Product')
@@ -47,8 +49,10 @@ export class ProductController extends ControllerPagination {
     }
 
     @Post("by-properties")
-    async findByProperties(@Body() dto: FindProductsByPropertiesDTO): Promise<Product[]> {
-        return await this.productService.findByProperties(dto);
+    async findByProperties(
+        @Query() query: QueryPaginationDTO,
+        @Body() dto: FindProductsByPropertiesDTO ): Promise<ResponsePaginationDTO> {
+        return await this.productService.findByProperties(dto, query);
     }
 
 }

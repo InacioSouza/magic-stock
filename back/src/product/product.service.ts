@@ -7,7 +7,8 @@ import { UpdateProductDTO } from './dto/update-product.dto';
 import { Prisma, Product } from '@prisma/client';
 import { PrismaClient } from '@prisma/client/extension';
 import { FindProductsByPropertiesDTO } from './dto/find-products-by-properties.dto';
-import { contains, equals } from 'class-validator';
+import { QueryPaginationDTO } from 'src/shared/dtos/query-pagination.dto';
+import { ResponsePaginationDTO } from 'src/shared/dtos/response-pagination.dto';
 
 @Injectable()
 export class ProductService {
@@ -71,23 +72,50 @@ export class ProductService {
         });
     }
 
-    async findByProperties(dto: FindProductsByPropertiesDTO): Promise<Product[]> {
+    async findByProperties(
+        dto: FindProductsByPropertiesDTO,
+        query: QueryPaginationDTO): Promise<ResponsePaginationDTO> {
 
-        return await this.prismaService.product.findMany({
-            where: {
-                ...(dto.name && { name: { contains: dto.name, mode: 'insensitive' } }),
+        const safePage = Math.max(query.page, 1);
+        const safeLimit = Math.max(query.limit, 1);
 
-                ...(dto.description && { description: { contains: dto.description, mode: 'insensitive' }}),
+        const skip = (safePage - 1) * safeLimit;
 
-                ...(dto.price && { price: { equals: dto.price }}),
+        const filter = {
+                    ...(dto.name && { name: { contains: dto.name, mode: Prisma.QueryMode.insensitive } }),
 
-                ...(dto.amount && { amount: { equals: dto.amount }}),
+                    ...(dto.description && { description: { contains: dto.description, mode: Prisma.QueryMode.insensitive  } }),
 
-                ...(dto.active && { active: { equals: dto.active }}),
+                    ...(dto.price && { price: { equals: dto.price } }),
 
-                ...(dto.category && { categoryID: { equals: dto.category}})
-            }
-        });
+                    ...(dto.amount && { amount: { equals: dto.amount } }),
+
+                    ...(dto.active && { active: { equals: dto.active } }),
+
+                    ...(dto.category && { categoryID: { equals: dto.category } })
+                };
+
+        const [data, total] = await Promise.all([
+            this.prismaService.product.findMany({
+                skip,
+                take: safeLimit,
+                orderBy: {
+                    [query.propertyOrderBy]: query.order
+                },
+                where: filter
+            }),
+            this.prismaService.product.count({
+                where: filter
+            }),
+        ]);
+
+        const responsePaginationDTO: ResponsePaginationDTO = new ResponsePaginationDTO();
+        responsePaginationDTO.data = data;
+        responsePaginationDTO.meta.total = total;
+        responsePaginationDTO.meta.page = safePage;
+        responsePaginationDTO.meta.lastPage = Math.ceil(total / safeLimit);
+
+        return responsePaginationDTO;
     }
 
 }
