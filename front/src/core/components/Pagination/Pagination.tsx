@@ -40,7 +40,7 @@ export const Pagination = ({ totalPages, onPageChange }: PaginationProps) => {
 
   return (
     <div className={styles.container}>
-      <button onClick={prev} disabled={currentPage === 1}>
+      <button className={styles.btn} onClick={prev} disabled={currentPage === 1}>
         ←
       </button>
 
@@ -50,7 +50,7 @@ export const Pagination = ({ totalPages, onPageChange }: PaginationProps) => {
         return (
           <button
             key={page}
-            className={`${styles.page} ${
+            className={`${styles.btn} ${styles.page} ${
               currentPage === page ? styles.active : ""
             }`}
             onClick={() => handleClick(page)}
@@ -60,7 +60,7 @@ export const Pagination = ({ totalPages, onPageChange }: PaginationProps) => {
         );
       })}
 
-      <button onClick={next} disabled={currentPage === totalPages}>
+      <button className={styles.btn} onClick={next} disabled={currentPage === totalPages}>
         →
       </button>
     </div>

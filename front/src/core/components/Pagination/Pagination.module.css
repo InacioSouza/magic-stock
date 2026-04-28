@@ -6,7 +6,7 @@
   margin-top: 20px;
 }
 
-button {
+.btn {
   border: none;
   background-color: #e0e6ed;
   color: #333;
@@ -16,11 +16,11 @@ button {
   transition: all 0.2s ease;
 }
 
-button:hover:not(:disabled) {
+.btn:hover:not(:disabled) {
   background-color: #cfd8e3;
 }
 
-button:disabled {
+.btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
