@@ -11,10 +11,15 @@ const MAX_VISIBLE = 5;
 export const Pagination = ({ totalPages, onPageChange }: PaginationProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [start, setStart] = useState(1);
+  const [timeClick, setTimeClick] = useState<number>(Date.now);
 
   const end = Math.min(start + MAX_VISIBLE - 1, totalPages);
 
   const handleClick = (page: number) => {
+
+    if ((Date.now() - timeClick) < 1000) return;
+    setTimeClick(Date.now());
+
     setCurrentPage(page);
     onPageChange(page);
 

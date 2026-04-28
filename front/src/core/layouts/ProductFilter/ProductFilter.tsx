@@ -21,6 +21,8 @@ const ProductFilter = ({ action }: ProductFilterProps) => {
         category: undefined
     });
 
+    const [disableBtnFilter, setDisableBtnFilter] = useState(false);
+
     const handleChangeFilter = (e: any) => {
         const { name, value } = e.target;
 
@@ -32,21 +34,27 @@ const ProductFilter = ({ action }: ProductFilterProps) => {
 
     const onFilter = () => {
 
+        setDisableBtnFilter(true);
+
         api.post('/product/by-properties', {
             ...filter
         }).then( response => {
 
             action(response, filter);
+            setDisableBtnFilter(false);
 
         }).catch(error => {
             console.error(error);
             toast.error('Falha ao buscar produtos!');
+            setDisableBtnFilter(false);
+
         });
     }
 
     return (
         <Filter
             model='Produtos'
+            disableBtn={disableBtnFilter}
             onClick={onFilter}
         >
             <div className={styles.filter}>

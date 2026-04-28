@@ -2,12 +2,18 @@ import type React from 'react';
 import styles from './Filter.module.css'
 
 type FilterProps = {
+    disableBtn: boolean,
     model: string,
     children: React.ReactNode,
     onClick: () => void
 }
 
-const Filter = ({model, children, onClick}: FilterProps) => {
+const Filter = ({
+    disableBtn,
+    model,
+    children,
+    onClick
+}: FilterProps) => {
 
     return (
         <div className={styles.filter}>
@@ -15,7 +21,13 @@ const Filter = ({model, children, onClick}: FilterProps) => {
 
             {children}
 
-            <button onClick={onClick}>Filtrar</button>
+            <button
+                onClick={onClick}
+                disabled={disableBtn}
+                className={`${styles.btn} ${ disableBtn ? styles.disable : ''} `}    
+            >
+                Filtrar
+            </button>
 
         </div>
     );

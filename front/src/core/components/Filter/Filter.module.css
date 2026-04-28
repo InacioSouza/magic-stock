@@ -6,7 +6,7 @@
   color: var(--main-color);
 }
 
-.filter button {
+.btn {
   padding: 6px;
   margin: 0 auto;
 
@@ -18,7 +18,19 @@
   border: 2.3px solid var(--differential-color);
 }
 
-.filter button:hover {
+.btn:hover {
   cursor: pointer;
   background-color: #cee6f7;
+}
+
+.disable {
+  color: rgb(170, 169, 169);
+  background-color: rgb(223, 223, 223);
+  border: none;
+}
+
+.disable:hover {
+  color: rgb(170, 169, 169);
+  background-color: rgb(223, 223, 223);
+  cursor: auto;
 }
