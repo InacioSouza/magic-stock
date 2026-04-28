@@ -3,7 +3,7 @@ import Register from "../pages/Register/Register";
 import Login from "../pages/Login/Login";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import PrivateRoute from "./PrivateRoute";
-import Produtos from "../pages/Produtos/Produtos";
+import Products from "../pages/Products/Products";
 
 const AppRoutes = () => {
 
@@ -16,7 +16,7 @@ const AppRoutes = () => {
 
                 <Route path="/produtos" element={
                     <PrivateRoute>
-                        <Produtos />
+                        <Products />
                     </PrivateRoute>
                 }></Route>
 

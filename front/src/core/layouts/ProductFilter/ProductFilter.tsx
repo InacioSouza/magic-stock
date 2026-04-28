@@ -1,21 +1,24 @@
 import { useState } from 'react';
 import Filter from '../../components/Filter/Filter';
-import styles from './ProdutoFilter.module.css'
+import styles from './ProductFilter.module.css'
 import Field from '../../components/Field/Field';
+import { toast } from 'react-toastify';
+import { api } from '../../api';
+import { ProductFilterDTO } from '../../model/dto/product-filter';
 
-type ProdutoFilterProps = {
-    action: (variable: any) => void;
+type ProductFilterProps = {
+    action: (response: any, stateFilter?: ProductFilterDTO) => void;
 }
 
-const ProdutoFilter = ({ action }: ProdutoFilterProps) => {
+const ProductFilter = ({ action }: ProductFilterProps) => {
 
-    const [filter, setFilter] = useState({
+    const [filter, setFilter] = useState<ProductFilterDTO>({
         name: '',
         description: '',
-        price: '',
-        amount: '',
-        active: '',
-        category: ''
+        price: undefined,
+        amount: undefined,
+        active: true,
+        category: undefined
     });
 
     const handleChangeFilter = (e: any) => {
@@ -29,10 +32,16 @@ const ProdutoFilter = ({ action }: ProdutoFilterProps) => {
 
     const onFilter = () => {
 
-        filter;
+        api.post('/product/by-properties', {
+            ...filter
+        }).then( response => {
 
-        // Aqui vai a lista de objetos
-        action([]);
+            action(response, filter);
+
+        }).catch(error => {
+            console.error(error);
+            toast.error('Falha ao buscar produtos!');
+        });
     }
 
     return (
@@ -88,4 +97,4 @@ const ProdutoFilter = ({ action }: ProdutoFilterProps) => {
     );
 }
 
-export default ProdutoFilter;
+export default ProductFilter;
