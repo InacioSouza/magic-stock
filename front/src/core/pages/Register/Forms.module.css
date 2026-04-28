@@ -21,7 +21,7 @@ section h1 {
     margin-bottom: 10px;
     font-size: 20px;
     font-weight: 430;
-    color: #1b325f;
+    color: var(--main-color);
 }
 
 .form {
@@ -36,7 +36,7 @@ section h1 {
     background-color: #6fa3ce;
 
     border-radius: 8px;
-    border: 3px solid #1b325f;
+    border: 3px solid var(--main-color);
 }
 
 .form button {
@@ -77,7 +77,7 @@ section h1 {
 
 .field input:focus {
     outline: none;
-    border: 2.3px solid #1b325f;
+    border: 2.3px solid var(--main-color);
 }
 
 .field span {

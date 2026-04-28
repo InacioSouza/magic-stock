@@ -6,7 +6,7 @@
 }
 
 .field label {
-  color: #1b325f;
+  color: var(--main-color);
   font-size: 18px;
   font-weight: 540;
 }
@@ -20,5 +20,5 @@
 
 .field input:focus {
     outline: none;
-    border: 2.3px solid #1b325f;
+    border: 2.3px solid var(--main-color);
 }

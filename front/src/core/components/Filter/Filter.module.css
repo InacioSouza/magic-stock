@@ -3,19 +3,19 @@
   font-weight: 550;
   font-style: italic;
   font-size: 24px;
-  color: #1b325f;
+  color: var(--main-color);
 }
 
 .filter button {
   padding: 6px;
   margin: 0 auto;
 
-  color: #3a89c9;
+  color: var(--secondary-color);
   background-color: transparent;
   font-weight: 550;
 
   border-radius: 8px;
-  border: 2.3px solid #f26c4f;
+  border: 2.3px solid var(--differential-color);
 }
 
 .filter button:hover {

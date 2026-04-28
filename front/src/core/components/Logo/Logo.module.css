@@ -18,12 +18,12 @@
 }
 
 .logo .magic {
-    color: #f26c4f;
+    color: var(--differential-color);
     text-align: left;
 }
 
 .logo .stock {
-    color: #1b325f;
+    color: var(--main-color);
     text-align: right;
 }
 

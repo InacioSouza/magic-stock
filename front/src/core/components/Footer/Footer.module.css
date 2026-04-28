@@ -6,7 +6,7 @@
     width: 100%;
     height: 120px;
 
-    background-color: #3a89c9;
+    background-color: var(--secondary-color);
 }
 
 .content {
