@@ -4,6 +4,8 @@
     flex-direction: column;
     font-weight: 550;
     font-style: italic;
+    text-shadow: 1px 1px 6px white;
+
     user-select: none;
     max-width: 205px;
     background-color: transparent;
