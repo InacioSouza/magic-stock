@@ -1,0 +1,45 @@
+.registerTable {
+  margin-bottom: 50px;
+}
+
+.registerTable table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 700px;
+}
+
+.registerTable td {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 250px;
+}
+
+.registerTable th,
+td {
+  padding: 10px;
+  text-align: left;
+}
+
+.registerTable th {
+  background-color: var(--secondary-color);
+  color: white;
+  text-align: center;
+}
+
+.registerTable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.registerTable tr:hover {
+  background-color: #eaeaea;
+}
+
+.noData {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3a89c952;
+  padding: 10px;
+}

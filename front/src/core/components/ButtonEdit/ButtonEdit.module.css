@@ -1,0 +1,13 @@
+.btnEdit {
+    background-color: rgb(138, 206, 37);
+    color: white;
+    padding: 6px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.btnEdit:hover {
+    cursor: pointer;
+    background-color: rgb(115, 172, 31);
+}

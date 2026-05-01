@@ -1,3 +1,5 @@
+import ButtonDelete from '../../components/ButtonDelete/ButtonDelete';
+import ButtonEdit from '../../components/ButtonEdit/ButtonEdit';
 import { Pagination } from '../../components/Pagination/Pagination';
 import type { Product } from '../../model/Product';
 import styles from './ProductTable.module.css';
@@ -35,16 +37,30 @@ const ProductTable = ({
 
                 <tbody>
                     {
-                        listRecords && listRecords.map(product => 
+                        listRecords && listRecords.map(product =>
                             <tr key={product.id}>
-                                <td>{product.name}</td>
-                                <td>{product.description}</td>
-                                <td>{product.price}</td>
+                                <td title={product.name.length > 25 ? product.name : ''}>{product.name}</td>
+                                <td 
+                                    title={product.description.length > 25 ? product.description : ''}
+                                >
+                                    {product.description}
+                                </td>
+                                <td style={{ textAlign: 'center' }}>{product.price}</td>
                                 <td>{product.category}</td>
-                                <td>{product.amount}</td>
-                                <td>{product.active ? "Sim" : "Não"}</td>
-                                <td><button onClick={() => onEdit(product.id)}>Editar</button></td>
-                                <td><button onClick={() => onDelete(product.id)}>Deletar</button></td>
+                                <td style={{ textAlign: 'center' }}>{product.amount}</td>
+                                <td style={{ textAlign: 'center' }}>{product.active ? "Sim" : "Não"}</td>
+
+                                <td>
+                                    <ButtonEdit
+                                        onClick={() => onEdit(product.id)}>
+                                    </ButtonEdit>
+                                </td>
+
+                                <td>
+                                    <ButtonDelete
+                                        onClick={() => onDelete(product.id)}>
+                                    </ButtonDelete>
+                                </td>
                             </tr>
                         )
                     }
@@ -52,11 +68,16 @@ const ProductTable = ({
             </table>
 
             {
+                (listRecords.length == 0) &&
+                <span className={styles.noData}>Sem dados</span>
+            }
+
+            {
                 numberPages &&
                 <Pagination
-                totalPages={numberPages}
-                onPageChange={onNewPage}
-            />
+                    totalPages={numberPages}
+                    onPageChange={onNewPage}
+                />
             }
         </div>
     );
