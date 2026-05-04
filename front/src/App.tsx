@@ -7,7 +7,10 @@ function App() {
 
   return (
     <>
-      <ToastContainer />
+      <div className="limitsHeightToastContainer">
+        <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
+      </div>
+
       <div className='app'>
         <AppRoutes />
       </div>
