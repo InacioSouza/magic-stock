@@ -102,7 +102,10 @@ export class ProductService {
                 orderBy: {
                     [query.propertyOrderBy]: query.order
                 },
-                where: filter
+                where: filter,
+                include: {
+                    category: true
+                }
             }),
             this.prismaService.product.count({
                 where: filter

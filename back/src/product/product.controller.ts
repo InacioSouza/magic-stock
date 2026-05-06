@@ -26,7 +26,7 @@ export class ProductController extends ControllerPagination {
 
     @Get(':id')
     async findById(@Param('id') id: number) {
-        return await this.productService.findById(id);
+        return await this.productService.findById(Number(id));
     }
 
 
