@@ -40,7 +40,7 @@ const ProductTable = ({
                         listRecords && listRecords.map(product =>
                             <tr key={product.id}>
                                 <td title={product.name.length > 25 ? product.name : ''}>{product.name}</td>
-                                <td 
+                                <td
                                     title={product.description.length > 25 ? product.description : ''}
                                 >
                                     {product.description}
@@ -73,11 +73,13 @@ const ProductTable = ({
             }
 
             {
-                numberPages &&
-                <Pagination
-                    totalPages={numberPages}
-                    onPageChange={onNewPage}
-                />
+                (numberPages != undefined && numberPages !== 0) ?
+                    <Pagination
+                        totalPages={numberPages}
+                        onPageChange={onNewPage}
+                    />
+                    :
+                    ""
             }
         </div>
     );
