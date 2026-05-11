@@ -90,7 +90,7 @@ export class ProductService {
 
                     ...(dto.amount && { amount: { equals: dto.amount } }),
 
-                    ...(dto.active && { active: { equals: dto.active } }),
+                    ...((dto.active !== undefined) && { active: { equals: dto.active } }),
 
                     ...(dto.category && { categoryID: { equals: dto.category } })
                 };
