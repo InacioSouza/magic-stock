@@ -1,3 +1,4 @@
+import type { Category } from "./Category";
 
 export class Product {
     id!: number;
@@ -6,5 +7,7 @@ export class Product {
     price!: number;
     amount!: number;
     active!: boolean;
-    category!: number;
+    category!: Category;
+    categoryID!: number;
+    enterpriseID!: number;
 }
