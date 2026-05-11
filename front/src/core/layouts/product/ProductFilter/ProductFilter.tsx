@@ -50,12 +50,13 @@ const ProductFilter = ({ action }: ProductFilterProps) => {
 
     const onFilter = () => {
 
-        console.log(filter);
-
         setDisableBtnFilter(true);
 
         api.post('/product/by-properties', {
-            ...filter
+            ...filter,
+            amount: Number(filter.amount),
+            price: Number(filter.price),
+            category: Number(filter.category)
         }).then(response => {
 
             action(response, filter);
@@ -130,13 +131,13 @@ const ProductFilter = ({ action }: ProductFilterProps) => {
 
                 <div className={styles.fieldActive}>
                     <label htmlFor="idActiveFormProduct">Ativo:</label>
-                    <input 
+                    <input
                         id="idActiveFormProduct"
                         type="checkbox"
-                        placeholder='Ativo' 
+                        placeholder='Ativo'
                         onChange={(event) => {
                             setFilter({ ...filter, active: event.target.checked })
-                        }}/>
+                        }} />
                 </div>
             </div>
         </Filter>
