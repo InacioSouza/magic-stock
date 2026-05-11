@@ -19,7 +19,7 @@ const ListingProduct = () => {
     const [visibleEditing, setVisibleEditing] = useState<boolean>(false);
 
     useEffect(() => {
-        
+
     }, [visibleEditing]);
 
     const onFilter = (response: any, stateFilter?: ProductFilterDTO) => {
@@ -31,7 +31,10 @@ const ListingProduct = () => {
     const onNewRecordsByPagination = (page: number) => {
 
         api.post(`/product/by-properties?page=${page}`, {
-            ...stateFilter
+            ...stateFilter,
+            amount: Number(stateFilter?.amount),
+            price: Number(stateFilter?.price),
+            category: Number(stateFilter?.category)
         }).then(response => {
 
             setListProduct(response.data.data);
