@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Filter from '../../../components/Filter/Filter';
 import styles from './ProductFilter.module.css'
 import Field from '../../../components/Field/Field';
 import { toast } from 'react-toastify';
 import { api } from '../../../api';
 import { ProductFilterDTO } from '../../../model/dto/product-filter';
+import SelectEntity from '../../../components/SelectEntity/SelectEntity';
+import { Category } from '../../../model/Category';
 
 type ProductFilterProps = {
     action: (response: any, stateFilter?: ProductFilterDTO) => void;
@@ -17,11 +19,25 @@ const ProductFilter = ({ action }: ProductFilterProps) => {
         description: '',
         price: undefined,
         amount: undefined,
-        active: true,
+        active: false,
         category: undefined
     });
 
     const [disableBtnFilter, setDisableBtnFilter] = useState(false);
+
+    const [listCategory, setListCategory] = useState<Category[]>([]);
+
+    useEffect(() => {
+        api.get("/category/registers/all")
+            .then(result => {
+                const newListCategory: any[] = result.data.data;
+                newListCategory.unshift(new Category());
+                setListCategory(newListCategory);
+            }).catch(error => {
+                console.error(error);
+                toast.error("Falha ao buscar categorias!")
+            })
+    }, []);
 
     const handleChangeFilter = (e: any) => {
         const { name, value } = e.target;
@@ -34,11 +50,13 @@ const ProductFilter = ({ action }: ProductFilterProps) => {
 
     const onFilter = () => {
 
+        console.log(filter);
+
         setDisableBtnFilter(true);
 
         api.post('/product/by-properties', {
             ...filter
-        }).then( response => {
+        }).then(response => {
 
             action(response, filter);
             setDisableBtnFilter(false);
@@ -77,6 +95,15 @@ const ProductFilter = ({ action }: ProductFilterProps) => {
                     placeholder='Informe a descrição'
                 />
 
+                <SelectEntity
+                    label='Categoria'
+                    displayField='name'
+                    listEntity={listCategory}
+                    onChange={(id: number) => {
+                        setFilter({ ...filter, category: id })
+                    }}
+                />
+
                 <Field
                     id='price'
                     name='price'
@@ -100,6 +127,17 @@ const ProductFilter = ({ action }: ProductFilterProps) => {
                     min={0}
                 >
                 </Field>
+
+                <div className={styles.fieldActive}>
+                    <label htmlFor="idActiveFormProduct">Ativo:</label>
+                    <input 
+                        id="idActiveFormProduct"
+                        type="checkbox"
+                        placeholder='Ativo' 
+                        onChange={(event) => {
+                            setFilter({ ...filter, active: event.target.checked })
+                        }}/>
+                </div>
             </div>
         </Filter>
     );
