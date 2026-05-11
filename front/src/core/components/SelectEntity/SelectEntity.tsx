@@ -32,7 +32,7 @@ const SelectEntity = ({
                 value={value}
                 onChange={(event) => {
                     setValue(Number(event.target.value))
-                    onChange(event.target.value);
+                    onChange(Number(event.target.value));
                 }}
             >
                 {listEntity && listEntity.map(entity => {
