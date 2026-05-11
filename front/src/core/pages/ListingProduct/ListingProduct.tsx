@@ -1,18 +1,26 @@
-import styles from './Products.module.css';
-import ProductFilter from '../../layouts/ProductFilter/ProductFilter';
+import styles from './ListingProduct.module.css';
+import ProductFilter from '../../layouts/product/ProductFilter/ProductFilter';
 import { ProductFilterDTO } from '../../model/dto/product-filter';
-import { useState } from 'react';
-import ProductTable from '../../layouts/ProductTable/ProductTable';
+import { useEffect, useState } from 'react';
+import ProductTable from '../../layouts/product/ProductTable/ProductTable';
 import { api } from '../../api';
 import { toast } from 'react-toastify';
-import type { Product } from '../../model/Product';
+import { Product } from '../../model/Product';
 import Swal from 'sweetalert2';
+import Popup from '../../components/Popup/Popup';
+import ProductForm from '../../layouts/product/ProductForm/ProductForm';
 
-const Products = () => {
+const ListingProduct = () => {
 
     const [listProduct, setListProduct] = useState<Product[]>([]);
     const [stateFilter, setStateFilter] = useState<ProductFilterDTO>();
     const [numberPages, setNumberPages] = useState<number>();
+    const [product, setProduct] = useState<Product>(new Product());
+    const [visibleEditing, setVisibleEditing] = useState<boolean>(false);
+
+    useEffect(() => {
+        
+    }, [visibleEditing]);
 
     const onFilter = (response: any, stateFilter?: ProductFilterDTO) => {
         setListProduct(response.data.data);
@@ -35,11 +43,20 @@ const Products = () => {
         });
     }
 
-    const onEditRecord = (idRecord: number) => {
-        console.log('Edit: ' + idRecord)
+    const onEditRecord = (idProduct: number) => {
+        api.get(`/product/${idProduct}`)
+            .then(result => {
+                setProduct(result.data);
+                setVisibleEditing(true);
+            })
+            .catch(error => {
+                console.error(error);
+                toast.error('Falha ao buscar informações do produto!');
+            });
+
     };
 
-    const onDeleteRecord = async (idRecord:number) => {
+    const onDeleteRecord = async (idRecord: number) => {
         const result = await Swal.fire({
             title: 'Deseja mesmo excluir o registro?',
             text: 'Essa ação não pode ser revertida',
@@ -49,15 +66,19 @@ const Products = () => {
         });
 
         if (result.isConfirmed) {
-            console.log('deletado!');
             const newListProduct = listProduct.filter(product => product.id != idRecord);
-        setListProduct(newListProduct);
+            setListProduct(newListProduct);
         }
+    }
+
+    const onSubmitEditForm = (product: any) => {
+        console.log(product);
     }
 
     return (
         <div className={styles.products}>
             <ProductFilter action={onFilter} />
+
             <ProductTable
                 listRecords={listProduct}
                 numberPages={numberPages}
@@ -65,8 +86,20 @@ const Products = () => {
                 onEdit={onEditRecord}
                 onDelete={onDeleteRecord}
             />
+
+            <Popup
+                title='Edição de Produto'
+                disableSaveBtn={true}
+                changeVisible={setVisibleEditing}
+                visible={visibleEditing}
+            >
+                <ProductForm
+                    onSubmit={onSubmitEditForm}
+                    currentStatusProduct={product} />
+            </Popup>
+
         </div>
     );
 }
 
-export default Products;
+export default ListingProduct;

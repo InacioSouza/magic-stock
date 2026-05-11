@@ -1,7 +1,7 @@
-import ButtonDelete from '../../components/ButtonDelete/ButtonDelete';
-import ButtonEdit from '../../components/ButtonEdit/ButtonEdit';
-import { Pagination } from '../../components/Pagination/Pagination';
-import type { Product } from '../../model/Product';
+import ButtonDelete from '../../../components/ButtonDelete/ButtonDelete';
+import ButtonEdit from '../../../components/ButtonEdit/ButtonEdit';
+import { Pagination } from '../../../components/Pagination/Pagination';
+import type { Product } from '../../../model/Product';
 import styles from './ProductTable.module.css';
 
 type ProductTableProps = {
@@ -46,7 +46,7 @@ const ProductTable = ({
                                     {product.description}
                                 </td>
                                 <td style={{ textAlign: 'center' }}>{product.price}</td>
-                                <td>{product.category}</td>
+                                <td>{product.category.name}</td>
                                 <td style={{ textAlign: 'center' }}>{product.amount}</td>
                                 <td style={{ textAlign: 'center' }}>{product.active ? "Sim" : "Não"}</td>
 

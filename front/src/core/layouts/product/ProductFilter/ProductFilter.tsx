@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import Filter from '../../components/Filter/Filter';
+import Filter from '../../../components/Filter/Filter';
 import styles from './ProductFilter.module.css'
-import Field from '../../components/Field/Field';
+import Field from '../../../components/Field/Field';
 import { toast } from 'react-toastify';
-import { api } from '../../api';
-import { ProductFilterDTO } from '../../model/dto/product-filter';
+import { api } from '../../../api';
+import { ProductFilterDTO } from '../../../model/dto/product-filter';
 
 type ProductFilterProps = {
     action: (response: any, stateFilter?: ProductFilterDTO) => void;

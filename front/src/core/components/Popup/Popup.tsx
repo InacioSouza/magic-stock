@@ -68,7 +68,7 @@ const Popup = ({
                 <div className={styles.background}>
                     <div className={styles.popup}>
                         <h2>{title}</h2>
-
+                        
                         <button
                             className={styles.exit}
                             onClick={handleExit}
