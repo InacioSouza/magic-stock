@@ -31,7 +31,6 @@ export class UsersController extends ControllerPagination {
         return req['payload_token']['enterpriseID'];
     }
 
-    @Public()
     @Post()
     async createUser(@Req() req: Request, @Body() body: CreateUserDTO): Promise<UserCreatedDTO> {
         const userSaved = await this.usersService.create(body, this.returnEnterpriseID(req));
