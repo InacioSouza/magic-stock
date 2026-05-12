@@ -89,7 +89,37 @@ const ListingProduct = () => {
     }
 
     const onSubmitEditForm = (product: any) => {
-        console.log(product);
+
+        setShowLoading(true);
+
+        api.patch(`/product/${product.id}`, {
+
+            name: product?.name,
+            description: product?.description,
+            price: product?.price,
+            categoryID: product?.categoryID,
+            amount: product?.amount,
+            active: product?.active
+
+        }).then(response => {
+
+                const newListProduct = [
+                    ...listProduct.filter(
+                        itemProduct => itemProduct.id !== product.id),
+                    response.data
+                ]
+                newListProduct.sort((p1, p2) => p1.id - p2.id);
+                setListProduct(newListProduct);
+
+                setShowLoading(false);
+                setVisibleEditing(false);
+                toast.info("Resgistro atualizado!");
+
+            }).catch(error => {
+                console.error(error);
+                setShowLoading(false);
+                toast.error("Falha ao atualizar resgistro!");
+            });
     }
 
     return (

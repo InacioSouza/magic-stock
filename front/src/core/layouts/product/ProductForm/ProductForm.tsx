@@ -18,6 +18,7 @@ type ProductFormProps = {
 type productFormDataInput = z.input<typeof productSchemaZod>
 
 export const productSchemaZod = z.object({
+    id: z.number(),
     name: z.string().nonempty("Insira um nome para o produto!"),
     description: z.string(),
     price: z.coerce.number().min(0.01, "O preço mínimo é de R$0,01!"),
@@ -55,6 +56,7 @@ const ProductForm = ({
 
     useEffect(() => {
         reset({
+            id: currentStatusProduct?.id,
             name: currentStatusProduct?.name,
             description: currentStatusProduct?.description,
             price: currentStatusProduct?.price,
