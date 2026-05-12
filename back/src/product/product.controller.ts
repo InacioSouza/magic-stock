@@ -44,7 +44,6 @@ export class ProductController extends ControllerPagination {
         @Param("id") id: string,
         @Body() body: UpdateProductDTO): Promise<Product> {
         const enterpriseID: number = req['payload_token']['enterpriseID'];
-
         return await this.productService.update(Number(id), body, enterpriseID);
     }
 

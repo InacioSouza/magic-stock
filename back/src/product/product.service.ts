@@ -69,6 +69,9 @@ export class ProductService {
             where: { id },
             data: {
                 ...dto
+            },
+            include: {
+                category: true
             }
         });
     }
@@ -104,7 +107,7 @@ export class ProductService {
                 skip,
                 take: safeLimit,
                 orderBy: {
-                    [query.propertyOrderBy]: query.order
+                    [query.propertyOrderBy ?? 'id']: query.order ?? 'asc'
                 },
                 where: filter,
                 include: {
