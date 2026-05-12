@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProductDTO } from './dto/create-product.dto';
 import { CategoryService } from 'src/category/category.service';
@@ -9,6 +9,7 @@ import { PrismaClient } from '@prisma/client/extension';
 import { FindProductsByPropertiesDTO } from './dto/find-products-by-properties.dto';
 import { QueryPaginationDTO } from 'src/shared/dtos/query-pagination.dto';
 import { ResponsePaginationDTO } from 'src/shared/dtos/response-pagination.dto';
+import { equal } from 'assert';
 
 @Injectable()
 export class ProductService {
@@ -59,7 +60,7 @@ export class ProductService {
         const product = await this.productExists(id);
 
         if (product.enterpriseID !== enterpriseID) {
-            throw new UnauthorizedException('Não é permitido alterar um registro pertencente a outra empresa!')
+            throw new ForbiddenException('Não é permitido alterar um registro pertencente a outra empresa!')
         }
 
         if (dto.categoryID) await this.categoryService.categoryExists(dto.categoryID);
@@ -74,7 +75,8 @@ export class ProductService {
 
     async findByProperties(
         dto: FindProductsByPropertiesDTO,
-        query: QueryPaginationDTO): Promise<ResponsePaginationDTO> {
+        query: QueryPaginationDTO,
+        enterpriseID: number): Promise<ResponsePaginationDTO> {
 
         const safePage = Math.max(query.page, 1);
         const safeLimit = Math.max(query.limit, 1);
@@ -82,18 +84,20 @@ export class ProductService {
         const skip = (safePage - 1) * safeLimit;
 
         const filter = {
-                    ...(dto.name && { name: { contains: dto.name, mode: Prisma.QueryMode.insensitive } }),
+            ...({enterpriseID: {equals: enterpriseID}}),
 
-                    ...(dto.description && { description: { contains: dto.description, mode: Prisma.QueryMode.insensitive  } }),
+            ...(dto.name && { name: { contains: dto.name, mode: Prisma.QueryMode.insensitive } }),
 
-                    ...(dto.price && { price: { equals: dto.price } }),
+            ...(dto.description && { description: { contains: dto.description, mode: Prisma.QueryMode.insensitive } }),
 
-                    ...(dto.amount && { amount: { equals: dto.amount } }),
+            ...(dto.price && { price: { equals: dto.price } }),
 
-                    ...((dto.active !== undefined) && { active: { equals: dto.active } }),
+            ...(dto.amount && { amount: { equals: dto.amount } }),
 
-                    ...(dto.category && { categoryID: { equals: dto.category } })
-                };
+            ...((dto.active !== undefined) && { active: { equals: dto.active } }),
+
+            ...(dto.category && { categoryID: { equals: dto.category } })
+        };
 
         const [data, total] = await Promise.all([
             this.prismaService.product.findMany({
@@ -119,6 +123,21 @@ export class ProductService {
         responsePaginationDTO.meta.lastPage = Math.ceil(total / safeLimit);
 
         return responsePaginationDTO;
+    }
+
+    async delete(id: number, enterpriseID: number) {
+
+        const product = await this.productExists(id);
+
+        if (product.enterpriseID !== enterpriseID) {
+            throw new ForbiddenException('Não é permitido deletar um registro pertencente a outra empresa!')
+        }
+
+        await this.prismaService.product.delete({
+            where: {
+                id
+            }
+        });
     }
 
 }

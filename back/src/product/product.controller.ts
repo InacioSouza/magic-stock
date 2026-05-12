@@ -1,5 +1,5 @@
 import { FindProductsByPropertiesDTO } from './dto/find-products-by-properties.dto';
-import { Body, Controller, Get, Param, Patch, Post, Query, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, Query, Req } from '@nestjs/common';
 import { CreateProductDTO } from './dto/create-product.dto';
 import { ProductService } from './product.service';
 import { UpdateProductDTO } from './dto/update-product.dto';
@@ -50,9 +50,20 @@ export class ProductController extends ControllerPagination {
 
     @Post("by-properties")
     async findByProperties(
+        @Req() req: Request,
         @Query() query: QueryPaginationDTO,
-        @Body() dto: FindProductsByPropertiesDTO ): Promise<ResponsePaginationDTO> {
-        return await this.productService.findByProperties(dto, query);
+        @Body() dto: FindProductsByPropertiesDTO): Promise<ResponsePaginationDTO> {
+        const enterpriseID: number = req['payload_token']['enterpriseID'];
+        return await this.productService.findByProperties(dto, query, enterpriseID);
+    }
+
+    @Delete(":id")
+    @HttpCode(HttpStatus.NO_CONTENT)
+    async deleteProduct(
+        @Req() req: Request,
+        @Param("id") id: string) {
+        const enterpriseID: number = req['payload_token']['enterpriseID'];
+        await this.productService.delete(Number(id), enterpriseID);
     }
 
 }
