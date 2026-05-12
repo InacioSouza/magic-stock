@@ -1,5 +1,5 @@
 import { PrismaService } from './../prisma/prisma.service';
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCategoryDTO } from './dto/create-category.dto';
 import { EnterpriseService } from 'src/enterprise/enterprise.service';
 import { Category } from '@prisma/client';
@@ -45,7 +45,7 @@ export class CategoryService {
         const category = await this.categoryExists(id);
 
         if (category.enterpriseID !== enterpriseID) {
-            throw new UnauthorizedException('Não é permitido alterar um registro pertencente a outra empresa!');
+            throw new ForbiddenException('Não é permitido alterar um registro pertencente a outra empresa!');
         }
 
 

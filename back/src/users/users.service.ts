@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDTO } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt'
@@ -55,7 +55,7 @@ export class UsersService {
         const user = await this.userExists(id);
 
         if (user.enterpriseID !== enterpriseID) {
-            throw new UnauthorizedException('Não é permitido alterar um registro pertencente a outra empresa!')
+            throw new ForbiddenException('Não é permitido alterar um registro pertencente a outra empresa!')
         }
 
         await this.prisma.userApp.update({
@@ -78,7 +78,7 @@ export class UsersService {
         const user = await this.userExists(id);
 
         if (user.enterpriseID !== enterpriseID) {
-            throw new UnauthorizedException('Não é permitido alterar um registro pertencente a outra empresa!')
+            throw new ForbiddenException('Não é permitido alterar um registro pertencente a outra empresa!')
         }
 
         const attributes = {};
