@@ -37,11 +37,28 @@
 
 .sidebar nav {
   margin-top: 100px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 25px;
+  gap: 40px;
+}
+
+.sidebar nav section {
+  padding: 0;
+  margin: 0;
+
+  height: auto;
+  width: 100%;
+}
+
+.sidebar nav section h2 {
+  font-size: 22px;
+  font-weight: 650;
+  color: #f7846a;
+
+  width: 100%;
+  text-align: left;
+  padding-left: 15%;
 }
 
 .open {

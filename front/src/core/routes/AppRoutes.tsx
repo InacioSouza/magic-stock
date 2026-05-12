@@ -26,6 +26,12 @@ const AppRoutes = () => {
                     </PrivateRoute>
                 }></Route>
 
+                <Route path="/cadastro-produtos" element={
+                    <PrivateRoute routeAdmin={true}>
+                        <div>Aqui será o componente de cadastro de produtos!</div>
+                    </PrivateRoute>
+                }></Route>
+
             </Routes>
         </BrowserRouter>
     );
