@@ -63,6 +63,10 @@ const ProductFilter = ({ action }: ProductFilterProps) => {
             action(response, filter);
             setDisableBtnFilter(false);
 
+            if(!response?.data?.data?.length || response.data.data.length === 0) {
+                toast.warn("Nenhum registro encontrado!")
+            }
+
         }).catch(error => {
             console.error(error);
             toast.error('Falha ao buscar produtos!');

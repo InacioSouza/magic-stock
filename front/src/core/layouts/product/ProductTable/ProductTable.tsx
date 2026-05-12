@@ -28,7 +28,7 @@ const ProductTable = ({
                     <tr>
                         <th>Nome</th>
                         <th>Descrição</th>
-                        <th>Preço</th>
+                        <th>Preço R$</th>
                         <th>Categoria</th>
                         <th>Quantidade</th>
                         <th>Ativo</th>
@@ -45,7 +45,7 @@ const ProductTable = ({
                                 >
                                     {product.description}
                                 </td>
-                                <td style={{ textAlign: 'center' }}>{product.price}</td>
+                                <td style={{ textAlign: 'center' }}>{product.price.toLocaleString('pt-br')}</td>
                                 <td>{product.category.name}</td>
                                 <td style={{ textAlign: 'center' }}>{product.amount}</td>
                                 <td style={{ textAlign: 'center' }}>{product.active ? "Sim" : "Não"}</td>

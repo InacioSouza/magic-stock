@@ -9,6 +9,7 @@ import { Product } from '../../model/Product';
 import Swal from 'sweetalert2';
 import Popup from '../../components/Popup/Popup';
 import ProductForm from '../../layouts/product/ProductForm/ProductForm';
+import LoadingOverlay from '../../components/LoadingOverlay/LoadingOverlay';
 
 const ListingProduct = () => {
 
@@ -17,6 +18,7 @@ const ListingProduct = () => {
     const [numberPages, setNumberPages] = useState<number>();
     const [product, setProduct] = useState<Product>(new Product());
     const [visibleEditing, setVisibleEditing] = useState<boolean>(false);
+    const [showLoading, setShowLoading] = useState<boolean>(false);
 
     useEffect(() => {
 
@@ -69,8 +71,20 @@ const ListingProduct = () => {
         });
 
         if (result.isConfirmed) {
-            const newListProduct = listProduct.filter(product => product.id != idRecord);
-            setListProduct(newListProduct);
+
+            setShowLoading(true);
+
+            api.delete(`/product/${idRecord}`).then(response => {
+                const newListProduct = listProduct.filter(product => product.id != idRecord);
+                setListProduct(newListProduct);
+                setShowLoading(false);
+                toast.info('Registro deletado!');
+
+            }).catch(error => {
+                setShowLoading(false);
+                console.error(error);
+                toast.error('Falha ao deletar registro!');
+            });
         }
     }
 
@@ -79,29 +93,33 @@ const ListingProduct = () => {
     }
 
     return (
-        <div className={styles.products}>
-            <ProductFilter action={onFilter} />
+        <>
+            {showLoading ? <LoadingOverlay /> : ""}
 
-            <ProductTable
-                listRecords={listProduct}
-                numberPages={numberPages}
-                onNewPage={onNewRecordsByPagination}
-                onEdit={onEditRecord}
-                onDelete={onDeleteRecord}
-            />
+            <div className={styles.products}>
+                <ProductFilter action={onFilter} />
 
-            <Popup
-                title='Edição de Produto'
-                disableSaveBtn={true}
-                changeVisible={setVisibleEditing}
-                visible={visibleEditing}
-            >
-                <ProductForm
-                    onSubmit={onSubmitEditForm}
-                    currentStatusProduct={product} />
-            </Popup>
+                <ProductTable
+                    listRecords={listProduct}
+                    numberPages={numberPages}
+                    onNewPage={onNewRecordsByPagination}
+                    onEdit={onEditRecord}
+                    onDelete={onDeleteRecord}
+                />
 
-        </div>
+                <Popup
+                    title='Edição de Produto'
+                    disableSaveBtn={true}
+                    changeVisible={setVisibleEditing}
+                    visible={visibleEditing}
+                >
+                    <ProductForm
+                        onSubmit={onSubmitEditForm}
+                        currentStatusProduct={product} />
+                </Popup>
+
+            </div>
+        </>
     );
 }
 
